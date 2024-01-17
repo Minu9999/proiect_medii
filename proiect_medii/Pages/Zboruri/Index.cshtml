@@ -1,0 +1,86 @@
+﻿@page
+@model proiect_medii.Pages.Zboruri.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Cauta destinatie:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].Destinatie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].Companie_Aeriana)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].Pret)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].Data_zbor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].Companie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zbor[0].ZborTerminale)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ZborD.Zboruri){
+        string selectedRow = "";
+            if (item.ID == Model.ZborID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.Destinatie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Companie_Aeriana)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pret)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_zbor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Companie.Nume_companie)
+            </td>
+                <td>
+                    @{
+                        foreach (var terminal in item.ZborTerminale)
+                        {
+                            @terminal.Terminal.ID @: @terminal.Terminal.Nume_terminal <br />
+                        }
+                    }
+                </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
